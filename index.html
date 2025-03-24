@@ -1,32 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <script src="js/three.js"></script>
-        <script src="js/OrbitControls.js"></script>
-        <title>Procedural City Generation</title>
-        <style>
-            body { margin: 0; overflow: hidden; }
-            canvas { display: block; }
-        </style>
-    </head>
-    <body>
-        <!-- Shaders -->
-        <script type='x-shader/x-vertex' id='vertexShader'>
-            attribute float alpha; varying float vAlpha; void main() { vAlpha = alpha; vec4 mvPosition = modelViewMatrix * vec4( position, 1.0 ); gl_PointSize = 2.0; gl_Position = projectionMatrix * mvPosition; }
-        </script>
-        <script type='x-shader/x-fragment' id='fragmentShader'>
-            uniform vec3 color; varying float vAlpha; void main() { gl_FragColor = vec4( color, vAlpha ); }
-        </script>
-        
-        <!-- External libraries -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.9/dat.gui.min.js"></script>
-        
-        <!-- Application scripts -->
-        <script src="Backend/setup.js"></script>
-        <script src="Backend/build.js"></script>
-        <script src="Backend/animate.js"></script>
-        <script src="Backend/run.js"></script>
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Procedural CityScape</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <!-- External libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    
+    <!-- Application scripts -->
+    <script src="CityScape/setup.js"></script>
+    <script src="CityScape/build.js"></script>
+    <script src="CityScape/animate.js"></script>
+    <script src="CityScape/run.js"></script>
+</body>
 </html>
