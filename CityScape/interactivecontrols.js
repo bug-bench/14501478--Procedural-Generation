@@ -1,4 +1,4 @@
-class InteractiveControls {
+class interactiveControls {
     constructor(domElement, scene, camera) {
         this.domElement = domElement;
         this.scene = scene;
@@ -9,6 +9,7 @@ class InteractiveControls {
         this.offset = new THREE.Vector3();
         this.intersect = new THREE.Vector3();
         this.selected = null;
+        this.dragging = false;
 
         this.enable();
     }
@@ -20,11 +21,12 @@ class InteractiveControls {
     }
 
     onDown(event) {
+        if (event.button !== 0) return;
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.pointer, this.camera);
 
-        const intersects = this.raycaster.intersectObjects(city.children, true);
+        const intersects = this.raycaster.intersectObjects(this.scene.children, true);
         if (intersects.length > 0) {
             this.selected = intersects[0].object.parent;
             this.plane.setFromNormalAndCoplanarPoint(
@@ -32,11 +34,12 @@ class InteractiveControls {
                 intersects[0].point
             );
             this.offset.copy(intersects[0].point).sub(this.selected.position);
+            this.dragging = true;
         }
     }
 
     onMove(event) {
-        if (!this.selected) return;
+        if (!this.selected || !this.dragging) return;
         this.pointer.x = (event.clientX / window.innerWidth) * 2 - 1;
         this.pointer.y = -(event.clientY / window.innerHeight) * 2 + 1;
         this.raycaster.setFromCamera(this.pointer, this.camera);
@@ -49,13 +52,14 @@ class InteractiveControls {
     }
 
     onUp() {
+        this.dragging = false;
         this.selected = null;
     }
 
     checkCollision(obj, newPos) {
         const tempBox = new THREE.Box3().setFromObject(obj.clone());
         tempBox.translate(newPos.clone().sub(obj.position));
-        for (const other of city.children) {
+        for (const other of this.scene.children) {
             if (other !== obj) {
                 const otherBox = new THREE.Box3().setFromObject(other);
                 if (tempBox.intersectsBox(otherBox)) return true;
@@ -64,3 +68,5 @@ class InteractiveControls {
         return false;
     }
 }
+
+export { interactiveControls };

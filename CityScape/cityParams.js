@@ -1,4 +1,10 @@
 const cityParams = {
-    streetWidth: 1.2,
-    blockSpacing: 1.5
+    streetWidth: 1.0,
+    blockSpacing: 1.2,
+    lightingTime: 'sunset',
+    textureMode: 'default',
+    category: 'small',
+    modelIndex: 0
 };
+
+export { cityParams };

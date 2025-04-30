@@ -1,11 +1,13 @@
+let scene, camera, renderer, controls, ambientLight, directionalLight;
+
 function setScene() {
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x111122);
 
-    const ambientLight = new THREE.AmbientLight(0x404040);
+    ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
 
-    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
+    directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
     directionalLight.position.set(50, 200, 100);
     directionalLight.castShadow = true;
     scene.add(directionalLight);
@@ -23,6 +25,8 @@ function setScene() {
     controls = new THREE.OrbitControls(camera, renderer.domElement);
     controls.enableDamping = true;
     controls.dampingFactor = 0.05;
+    controls.enablePan = false;
+    controls.mouseButtons.LEFT = THREE.MOUSE.RIGHT;
 
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
@@ -30,3 +34,11 @@ function setScene() {
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 }
+
+function animate() {
+    requestAnimationFrame(animate);
+    controls.update();
+    renderer.render(scene, camera);
+}
+
+export { setScene, animate, scene, camera, renderer, directionalLight };

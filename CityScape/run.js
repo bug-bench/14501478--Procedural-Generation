@@ -1,8 +1,19 @@
-let modelLoader;
-let cityBuilder;
+import { modelLoader } from './modelLoader.js';
+import { cityBuilder } from './cityBuilder.js';
+import { interactiveControls } from './interactiveControls.js';
+import { UIController } from './UIController.js';
+import { cityParams } from './cityParams.js';
+import { setScene, animate, scene, camera, renderer, directionalLight } from './setup.js';
+
+let modelLoaderInstance;
+let cityBuilderInstance;
 let city;
+let gui;
+let uiControllerInstance;
+
 setScene();
-modelLoader = new ModelLoader({
+
+modelLoaderInstance = new modelLoader({
     small: ['models/Small Building 1.glb'],
     large: [
         'models/Large Building 1.glb',
@@ -14,9 +25,12 @@ modelLoader = new ModelLoader({
         'models/Skyscraper 2.glb'
     ]
 });
-modelLoader.loadAll(() => {
-    cityBuilder = new CityBuilder(scene, modelLoader);
-    city = cityBuilder.generate();
-    new InteractiveControls(renderer.domElement, scene, camera);
+
+modelLoaderInstance.loadAll(() => {
+    cityBuilderInstance = new cityBuilder(scene, modelLoaderInstance);
+    city = cityBuilderInstance.generate();
+    gui = new dat.GUI();
+    uiControllerInstance = new UIController(gui, modelLoaderInstance, cityBuilderInstance, scene, directionalLight);
+    new interactiveControls(renderer.domElement, scene, camera);
     animate();
 });

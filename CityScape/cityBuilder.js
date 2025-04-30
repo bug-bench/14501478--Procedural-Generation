@@ -1,4 +1,6 @@
-class CityBuilder {
+import { cityParams } from './cityParams.js';
+
+class cityBuilder {
     constructor(scene, modelLoader) {
         this.scene = scene;
         this.modelLoader = modelLoader;
@@ -19,6 +21,7 @@ class CityBuilder {
         });
 
         return building;
+        
     }
 
     createBlock(x, z) {
@@ -54,3 +57,5 @@ class CityBuilder {
         return this.city;
     }
 }
+
+export { cityBuilder };
