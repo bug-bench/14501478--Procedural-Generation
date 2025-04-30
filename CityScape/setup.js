@@ -1,5 +1,3 @@
-/* global THREE, generateCity, animateLights */
-
 // Global variables for Three.js scene
 var scene, camera, renderer, controls, gui, city;
 var clock = new THREE.Clock(); // Clock for animations
@@ -24,11 +22,10 @@ var cityParams = {
 };
 
 function setScene() {
-    // 1. Initialize Three.js scene with dark background
+    // Initialise Three.js scene with dark background
     scene = new THREE.Scene();
     scene.background = new THREE.Color(0x111122);
     
-    // 2. Set up lighting
     // Ambient light fills the entire scene evenly
     var ambientLight = new THREE.AmbientLight(0x404040);
     scene.add(ambientLight);
@@ -38,15 +35,15 @@ function setScene() {
     directionalLight.position.set(1, 1, 1);
     scene.add(directionalLight);
 
-    // 3. Configure camera
+    // Configure camera
     camera = new THREE.PerspectiveCamera(
-        45, // Field of view
-        window.innerWidth / window.innerHeight, // Aspect ratio
-        0.1, // Near clipping plane
-        1000 // Far clipping plane
+        45, 
+        window.innerWidth / window.innerHeight, 
+        0.1, 
+        1000 
     );
-    camera.position.set(150, 200, 150); // Position camera above the scene
-    camera.lookAt(0, 0, 0); // Point camera at center
+    camera.position.set(150, 200, 150); 
+    camera.lookAt(0, 0, 0); 
 
     // 4. Set up renderer with antialiasing
     renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -55,10 +52,10 @@ function setScene() {
     
     // 5. Add orbit controls for user interaction
     controls = new THREE.OrbitControls(camera, renderer.domElement);
-    controls.enableDamping = true; // Smooth camera movement
+    controls.enableDamping = true; 
     controls.dampingFactor = 0.05;
 
-    // 6. Initialize GUI controls
+    // 6. Initialise GUI controls
     gui = new dat.GUI({ width: 300 });
     
     // Building settings folder
@@ -81,7 +78,6 @@ function setScene() {
     lightFolder.add(cityParams, 'lightIntensity', 0.1, 2.0).name('Light Intensity');
     lightFolder.addColor(cityParams, 'lightColor').name('Light Color');
     lightFolder.add(cityParams, 'colorCycleEnabled').name('RGB Cycle').onChange(function() {
-        // No regeneration needed, just update animation
     });
     lightFolder.open();
 

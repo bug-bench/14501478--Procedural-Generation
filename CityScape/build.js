@@ -30,7 +30,7 @@ function createBuilding(x, z) {
 
         // 2. Add windows (only on even floors, 50% chance, not on top floor)
         if (i % 2 === 0 && Math.random() > 0.5 && i < height - 1) {
-            var windowGeometry = new THREE.BoxGeometry(3, 3, 0.1); // Flat windows
+            var windowGeometry = new THREE.BoxGeometry(3, 3, 0.1); 
             var windowMaterial = new THREE.MeshBasicMaterial({ 
                 color: windowColor,
                 transparent: true,
@@ -49,7 +49,7 @@ function createBuilding(x, z) {
                         break;
                     case 'left': 
                         windowCube.position.set(-2.5, (i + 0.5) * 5, 0); 
-                        windowCube.rotation.y = Math.PI/2; // Rotate to face outward
+                        windowCube.rotation.y = Math.PI/2; 
                         break;
                     case 'right': 
                         windowCube.position.set(2.5, (i + 0.5) * 5, 0); 
@@ -62,7 +62,7 @@ function createBuilding(x, z) {
 
         // 3. Add light strips (on all floors except top)
         if (i < height - 1) {
-            var lightGeometry = new THREE.BoxGeometry(5.1, 0.3, 0.2); // Thin horizontal strips
+            var lightGeometry = new THREE.BoxGeometry(5.1, 0.3, 0.2); 
             var lightMaterial = new THREE.MeshBasicMaterial({ 
                 color: lightColor,
                 transparent: true,
@@ -77,7 +77,7 @@ function createBuilding(x, z) {
                 // Position around the building perimeter
                 lightStrip.position.set(
                     2.55 * Math.sin(angle),
-                    (i + 0.85) * 5, // Slightly below floor ceiling
+                    (i + 0.85) * 5, 
                     2.55 * Math.cos(angle)
                 );
                 
@@ -96,7 +96,7 @@ function createBuilding(x, z) {
         }
     }
 
-    // 4. Add foundation platform (positioned to not clip through buildings)
+    // 4. Add foundation platform
     var foundationGeometry = new THREE.BoxGeometry(6, 1, 6);
     var foundationMaterial = new THREE.MeshPhongMaterial({ 
         color: 0x777777,
@@ -104,7 +104,7 @@ function createBuilding(x, z) {
         shininess: 15
     });
     var foundation = new THREE.Mesh(foundationGeometry, foundationMaterial);
-    foundation.position.set(0, -1.5, 0); // Lowered to prevent clipping
+    foundation.position.set(0, -1.5, 0);
     building.add(foundation);
 
     // Position entire building at specified coordinates
@@ -127,7 +127,7 @@ function createBlock(x, z) {
         }
     }
     
-    // Add street base (positioned lower to prevent clipping)
+    // Add street base 
     var streetGeometry = new THREE.BoxGeometry(
         buildingSpacing * 2.2, 
         0.5, 
@@ -139,7 +139,7 @@ function createBlock(x, z) {
         shininess: 10
     });
     var streetBase = new THREE.Mesh(streetGeometry, streetMaterial);
-    streetBase.position.set(x, -2.0, z); // Lowered position
+    streetBase.position.set(x, -2.0, z); 
     block.add(streetBase);
     
     block.position.set(x, 0, z);
@@ -147,7 +147,7 @@ function createBlock(x, z) {
 }
 
 function generateCity() {
-    // Initialize or clear existing city
+    // Initialise or clear existing city
     if (!city) city = new THREE.Group();
     scene.remove(city);
     city = new THREE.Group();
