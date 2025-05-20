@@ -1,28 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Procedural City</title>
-  <style>
-    body { margin: 0; overflow: hidden; }
-    canvas { display: block; }
-  </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Procedural CityScape</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+    </style>
 </head>
 <body>
-  <!-- External libraries -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
-
-  <!-- App modules -->
-  <script type="module" src="./CityScape/cityParams.js"></script>
-  <script type="module" src="./CityScape/setup.js"></script>
-  <script type="module" src="./CityScape/modelLoader.js"></script>
-  <script type="module" src="./CityScape/cityBuilder.js"></script>
-  <script type="module" src="./CityScape/interactiveControls.js"></script>
-  <script type="module" src="./CityScape/UIController.js"></script>
-  <script type="module" src="./CityScape/run.js"></script>
+    <!-- External libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.min.js"></script>
+    
+    <!-- Application scripts -->
+    <script src="CityScape/setup.js"></script>
+    <script src="CityScape/build.js"></script>
+    <script src="CityScape/animate.js"></script>
+    <script src="CityScape/run.js"></script>
 </body>
 </html>
