@@ -66,7 +66,7 @@ function createBlock(type, x, z) {
         ground.position.set(x, -0.75, z);
         group.add(ground);
 
-        const trees = THREE.MathUtils.randInt(3, 7);
+        const trees = THREE.MathUtils.randInt(2, 5);
         for (let i = 0; i < trees; i++) {
             const tx = x + (Math.random() - 0.5) * (blockSize - 4);
             const tz = z + (Math.random() - 0.5) * (blockSize - 4);
@@ -74,7 +74,6 @@ function createBlock(type, x, z) {
         }
 
     } else if (type === 'water') {
-        // Expand water laterally to suggest continuous lake/harbor
         const water = new THREE.Mesh(
             new THREE.BoxGeometry(blockSize + roadThickness, 0.5, blockSize + roadThickness),
             new THREE.MeshPhongMaterial({ color: 0x4b95de, transparent: true, opacity: 0.6 })
@@ -111,8 +110,12 @@ function generateCity() {
     city = new THREE.Group();
 
     const gridSize = 15;
-    const spacing = 20 + 2; // Include road spacing
+    const spacing = 20 + 2;
     noise.seed(cityParams.perlinSeed);
+
+    const baySide = Math.floor(Math.random() * 4); // 0=left, 1=right, 2=top, 3=bottom
+    const bayDepthProfile = [4, 3, 3, 2, 2, 2, 1, 0];
+    const bayStart = Math.floor((gridSize - bayDepthProfile.length) / 2);
 
     for (let gx = 0; gx < gridSize; gx++) {
         for (let gz = 0; gz < gridSize; gz++) {
@@ -120,12 +123,27 @@ function generateCity() {
             const z = gz * spacing - (gridSize * spacing / 2);
 
             const value = Math.abs(noise.perlin2(gx / 5, gz / 5));
-
-            // Reduce frequency of isolated water blocks
             let type = 'building';
-            if ((gx === 0 || gx === gridSize - 1 || gz === 0 || gz === gridSize - 1) && value < 0.3) {
-                type = 'water';
-            } else if (value < 0.4) {
+
+            // Bay profile logic based on side
+            let bayIndex, bayLimit = -1;
+            if (baySide === 0 && gx < bayDepthProfile[0]) {
+                bayIndex = gz - bayStart;
+                if (bayIndex >= 0 && bayIndex < bayDepthProfile.length) bayLimit = bayDepthProfile[bayIndex];
+                if (gx < bayLimit) type = 'water';
+            } else if (baySide === 1 && gx >= gridSize - bayDepthProfile[0]) {
+                bayIndex = gz - bayStart;
+                if (bayIndex >= 0 && bayIndex < bayDepthProfile.length) bayLimit = bayDepthProfile[bayIndex];
+                if (gx >= gridSize - bayLimit) type = 'water';
+            } else if (baySide === 2 && gz < bayDepthProfile[0]) {
+                bayIndex = gx - bayStart;
+                if (bayIndex >= 0 && bayIndex < bayDepthProfile.length) bayLimit = bayDepthProfile[bayIndex];
+                if (gz < bayLimit) type = 'water';
+            } else if (baySide === 3 && gz >= gridSize - bayDepthProfile[0]) {
+                bayIndex = gx - bayStart;
+                if (bayIndex >= 0 && bayIndex < bayDepthProfile.length) bayLimit = bayDepthProfile[bayIndex];
+                if (gz >= gridSize - bayLimit) type = 'water';
+            } else if (value < 0.12) {
                 type = 'park';
             }
 
@@ -135,5 +153,6 @@ function generateCity() {
     }
 
     scene.add(city);
-    console.log("City generated with procedural =", cityParams.proceduralMode);
+    console.log("City generated with bay side:", baySide);
 }
+
