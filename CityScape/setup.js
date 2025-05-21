@@ -87,6 +87,7 @@ function setScene() {
 
 // Handle window resize events
 function resizeScene() {
+    if (!camera) return;
     camera.aspect = window.innerWidth / window.innerHeight;
     camera.updateProjectionMatrix();
     renderer.setSize(window.innerWidth, window.innerHeight);
